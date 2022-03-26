@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="4">
+        android:weightSum="5">
 
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
@@ -43,7 +43,7 @@
 
             <com.smarteist.autoimageslider.SliderView
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="250dp"
                 app:sliderAnimationDuration="2000"
                 android:id="@+id/sliderView_ID"
                 app:sliderAutoCycleDirection="back_and_forth"
@@ -63,6 +63,15 @@
             </com.smarteist.autoimageslider.SliderView>
 
         </LinearLayout>
+
+       <androidx.recyclerview.widget.RecyclerView
+           android:layout_width="match_parent"
+           android:layout_weight="1"
+           android:layout_marginTop="25dp"
+           android:id="@+id/noticeRecyclerView"
+           android:layout_height="15dp">
+
+       </androidx.recyclerview.widget.RecyclerView>
 
         <LinearLayout
             android:layout_width="match_parent"

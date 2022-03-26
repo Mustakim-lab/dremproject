@@ -16,8 +16,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 
 public class EditorManaulActivity extends AppCompatActivity {
-    EditText billerNameEdit,amountEdit,dateEdit,tranjectionEdit,statusEdit;
-    Button submitBtn;
+    EditText billerNameEdit,amountEdit,dateEdit,tranjectionEdit,statusEdit,personalNotice,personalTotal,personalDue;
+    Button submitBtn,personalBtn;
 
     FirebaseUser firebaseUser;
     Intent intent;
@@ -31,8 +31,12 @@ public class EditorManaulActivity extends AppCompatActivity {
         dateEdit=findViewById(R.id.billManualDate_ID);
         tranjectionEdit=findViewById(R.id.billTManualTrans_ID);
         statusEdit=findViewById(R.id.billManualStatus_ID);
+        personalNotice=findViewById(R.id.personalNotice_ID);
+        personalTotal=findViewById(R.id.personalAmount_ID);
+        personalDue=findViewById(R.id.personalDue_ID);
 
         submitBtn=findViewById(R.id.billManualSubmit_ID);
+        personalBtn=findViewById(R.id.personalSubmit_ID);
 
         intent=getIntent();
         String id=intent.getStringExtra("editor_manualID");
@@ -72,7 +76,19 @@ public class EditorManaulActivity extends AppCompatActivity {
 
             }
         });
+
+        personalBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String notice=personalNotice.getText().toString().trim();
+                String total=personalTotal.getText().toString();
+                String due=personalDue.getText().toString();
+                sentPersonalData(notice,total,due,id);
+            }
+        });
     }
+
+
 
     private void sentData(String name, String amount, String date, String transaction, String status, String id) {
         DatabaseReference reference= FirebaseDatabase.getInstance().getReference("Bill_folder");
@@ -89,5 +105,19 @@ public class EditorManaulActivity extends AppCompatActivity {
 
         reference.child(new_id).setValue(hashMap);
         Toast.makeText(EditorManaulActivity.this, "আপনার বিল প্রেরন করা হয়েছে", Toast.LENGTH_SHORT).show();
+    }
+
+    private void sentPersonalData(String notice, String total, String due, String id) {
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("personal_data");
+        String new_Id=reference.push().getKey();
+        HashMap<String,Object> hashMap=new HashMap<>();
+        hashMap.put("notice",notice);
+        hashMap.put("total",total);
+        hashMap.put("due",due);
+        hashMap.put("new_id",new_Id);
+        hashMap.put("id",id);
+
+        reference.child(new_Id).setValue(hashMap);
+        Toast.makeText(EditorManaulActivity.this, "আপনার তথ্য প্রেরন করা হয়েছে", Toast.LENGTH_SHORT).show();
     }
 }

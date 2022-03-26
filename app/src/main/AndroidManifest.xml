@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OurProject">
         <activity
+            android:name=".PersonalActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditorManaulActivity"
             android:exported="false" />
         <activity

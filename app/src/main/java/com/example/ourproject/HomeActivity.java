@@ -7,6 +7,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +17,9 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.example.ourproject.Adapter.NoticeAdapter;
 import com.example.ourproject.Adapter.SliderAdapter;
+import com.example.ourproject.Model.Notice;
 import com.example.ourproject.Model.ProfileModel;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +33,8 @@ import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnima
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -41,12 +47,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     CardView memberCard,photoCard,payCard;
 
+    RecyclerView recyclerView;
+    NoticeAdapter noticeAdapter;
+    List<Notice> noticeList;
 
     FirebaseUser firebaseUser;
     DatabaseReference reference;
     FirebaseAuth mAuth;
 
-    TextView profileName;
+    TextView profileName,noticeText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,9 +109,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         payCard=findViewById(R.id.billCard_ID);
         profileName=findViewById(R.id.profile_ID);
 
+        recyclerView=findViewById(R.id.noticeRecyclerView);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
 
-
-
+        noticeList=new ArrayList<>();
+        redNotice();
 
         memberCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,9 +144,27 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
 
+    }
 
+    private void redNotice() {
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("personal_data");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot:dataSnapshot.getChildren()){
+                    Notice notice=snapshot.getValue(Notice.class);
+                    noticeList.add(notice);
 
+                    noticeAdapter=new NoticeAdapter(HomeActivity.this,noticeList);
+                    recyclerView.setAdapter(noticeAdapter);
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 
@@ -159,6 +190,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         }else if (item.getItemId()==R.id.editor_ID){
             Intent intent=new Intent(HomeActivity.this,EditorLoginActivity.class);
+            startActivity(intent);
+        }else if (item.getItemId()==R.id.dueAndAmount_ID){
+            Intent intent=new Intent(HomeActivity.this,PersonalActivity.class);
             startActivity(intent);
         }
         drawerLayout.closeDrawer(GravityCompat.START);

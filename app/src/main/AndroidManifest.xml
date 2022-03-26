@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OurProject">
         <activity
+            android:name=".EditorManaulActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditorPageActivity"
             android:exported="false" />
         <activity

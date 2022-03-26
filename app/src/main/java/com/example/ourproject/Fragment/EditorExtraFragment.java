@@ -2,65 +2,80 @@ package com.example.ourproject.Fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.ourproject.Adapter.EditorManaulAdapter;
+import com.example.ourproject.Adapter.EditorUserAdapter;
+import com.example.ourproject.Model.ProfileModel;
 import com.example.ourproject.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link EditorExtraFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class EditorExtraFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public EditorExtraFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EditorExtraFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EditorExtraFragment newInstance(String param1, String param2) {
-        EditorExtraFragment fragment = new EditorExtraFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
+    RecyclerView recyclerView;
+    EditorManaulAdapter editorManaulAdapter;
+    List<ProfileModel> profileModelList;
+    FirebaseUser firebaseUser;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_editor_extra, container, false);
+        View view= inflater.inflate(R.layout.fragment_editor_extra, container, false);
+
+        recyclerView=view.findViewById(R.id.editorManualRecyclerView_ID);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        profileModelList=new ArrayList<>();
+
+        redUser();
+
+        return view;
+    }
+
+    private void redUser() {
+        firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference reference= FirebaseDatabase.getInstance().getReference("member");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                profileModelList.clear();
+
+                for (DataSnapshot snapshot:dataSnapshot.getChildren()){
+                    ProfileModel profileModel=snapshot.getValue(ProfileModel.class);
+
+                    if (!profileModel.getId().equals(firebaseUser.getUid())){
+                        profileModelList.add(profileModel);
+                    }
+                }
+
+                editorManaulAdapter=new EditorManaulAdapter(getContext(),profileModelList);
+                recyclerView.setAdapter(editorManaulAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

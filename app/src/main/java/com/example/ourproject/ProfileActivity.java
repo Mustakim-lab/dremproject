@@ -55,7 +55,6 @@ public class ProfileActivity extends AppCompatActivity {
                         paymentList.add(payment);
                     }
 
-
                     paymnetAdapter=new PaymnetAdapter(ProfileActivity.this,paymentList);
                     recyclerView.setAdapter(paymnetAdapter);
 

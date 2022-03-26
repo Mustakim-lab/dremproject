@@ -134,7 +134,8 @@ public class EditorPageActivity extends AppCompatActivity {
                         showUpdateDialuge(editorPayment.getNew_id(),position);
                         break;
                     case 1:
-                        //
+                        reference=FirebaseDatabase.getInstance().getReference("Bill_folder").child(editorPayment.getNew_id());
+                        reference.removeValue();
                         break;
                 }
                 // false : close the menu; true : not close the menu
@@ -158,8 +159,13 @@ public class EditorPageActivity extends AppCompatActivity {
         EditText date=view.findViewById(R.id.editorbillDate_ID);
         EditText status=view.findViewById(R.id.editorbillStatus_ID);
 
-
         Button button=view.findViewById(R.id.editorbillSubmit_ID);
+
+        EditorPayment editorPayment=editorPaymentList.get(position);
+        name.setText(editorPayment.getName());
+        amount.setText(editorPayment.getAmount());
+        date.setText(editorPayment.getDate());
+        status.setText(editorPayment.getStatus());
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override

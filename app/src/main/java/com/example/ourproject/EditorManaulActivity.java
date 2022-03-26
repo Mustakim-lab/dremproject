@@ -2,41 +2,40 @@ package com.example.ourproject;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
-public class BillPayActivity extends AppCompatActivity {
+public class EditorManaulActivity extends AppCompatActivity {
     EditText billerNameEdit,amountEdit,dateEdit,tranjectionEdit,statusEdit;
     Button submitBtn;
 
     FirebaseUser firebaseUser;
+    Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bill_pay);
+        setContentView(R.layout.activity_editor_manaul);
 
-        billerNameEdit=findViewById(R.id.billName_ID);
-        amountEdit=findViewById(R.id.bilAomunt_ID);
-        dateEdit=findViewById(R.id.billDate_ID);
-        tranjectionEdit=findViewById(R.id.billTrans_ID);
-        statusEdit=findViewById(R.id.billStatus_ID);
+        billerNameEdit=findViewById(R.id.billManualName_ID);
+        amountEdit=findViewById(R.id.bilManualAomunt_ID);
+        dateEdit=findViewById(R.id.billManualDate_ID);
+        tranjectionEdit=findViewById(R.id.billTManualTrans_ID);
+        statusEdit=findViewById(R.id.billManualStatus_ID);
 
+        submitBtn=findViewById(R.id.billManualSubmit_ID);
 
-        submitBtn=findViewById(R.id.billSubmit_ID);
-
-        firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
-        String myId=firebaseUser.getUid();
+        intent=getIntent();
+        String id=intent.getStringExtra("editor_manualID");
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,13 +58,9 @@ public class BillPayActivity extends AppCompatActivity {
                     dateEdit.setError("তারিখ লিখুন");
                     dateEdit.requestFocus();
                     return;
-                }else if (transaction.isEmpty()){
-                    tranjectionEdit.setError("ট্রানজেকশন নাম্বার দিন");
-                    tranjectionEdit.requestFocus();
-                    return;
-                }else {
+                } else {
 
-                    sentData(name,amount,date,transaction,status,myId);
+                    sentData(name,amount,date,transaction,status,id);
                 /*
                 billerNameEdit.setText("");
                 amountEdit.setText("");
@@ -75,12 +70,11 @@ public class BillPayActivity extends AppCompatActivity {
                  */
                 }
 
-
             }
         });
     }
 
-    private void sentData(String name, String amount, String date, String transaction,String status, String myId) {
+    private void sentData(String name, String amount, String date, String transaction, String status, String id) {
         DatabaseReference reference= FirebaseDatabase.getInstance().getReference("Bill_folder");
         String new_id=reference.push().getKey();
 
@@ -90,11 +84,10 @@ public class BillPayActivity extends AppCompatActivity {
         hashMap.put("date",date);
         hashMap.put("transaction",transaction);
         hashMap.put("status",status);
-        hashMap.put("id",myId);
+        hashMap.put("id",id);
         hashMap.put("new_id",new_id);
 
         reference.child(new_id).setValue(hashMap);
-        //reference.child("Bill_folder").push().setValue(hashMap);
-        Toast.makeText(BillPayActivity.this, "আপনার বিল প্রেরন করা হয়েছে", Toast.LENGTH_SHORT).show();
+        Toast.makeText(EditorManaulActivity.this, "আপনার বিল প্রেরন করা হয়েছে", Toast.LENGTH_SHORT).show();
     }
 }

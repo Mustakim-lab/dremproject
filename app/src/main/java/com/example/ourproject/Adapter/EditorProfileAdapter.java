@@ -56,6 +56,7 @@ public class EditorProfileAdapter extends ArrayAdapter<EditorPayment> {
         name.setText(editorPayment.getName());
         amount.setText(editorPayment.getAmount());
         date.setText(editorPayment.getDate());
+        status.setText(editorPayment.getStatus());
 
         return convertView;
     }

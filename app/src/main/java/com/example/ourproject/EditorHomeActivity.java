@@ -28,7 +28,7 @@ public class EditorHomeActivity extends AppCompatActivity {
 
         ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(new EditorMemberFragment(),"সদস্য");
-        viewPagerAdapter.addFragment(new EditorExtraFragment(),"Extra");
+        viewPagerAdapter.addFragment(new EditorExtraFragment(),"তথ্য দিন");
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }

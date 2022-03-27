@@ -110,14 +110,6 @@
 
         </TextView>
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Notice..."
-            android:layout_margin="10dp"
-            android:id="@+id/personalNotice_ID">
-
-        </EditText>
 
         <EditText
             android:layout_width="match_parent"

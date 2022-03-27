@@ -12,6 +12,12 @@
             >
         </item>
 
+        <item android:title="Due and Amount"
+            android:icon="@drawable/ic_baseline_iso_24"
+            android:id="@+id/dueAndAmount_ID">
+
+        </item>
+
         <item
             android:title="Log Out"
             android:id="@+id/logout_ID"
@@ -20,11 +26,7 @@
 
         </item>
 
-        <item android:title="Due and Amount"
-            android:icon="@drawable/ic_baseline_iso_24"
-            android:id="@+id/dueAndAmount_ID">
 
-        </item>
     </group>
 
     <item android:title="Extra">

@@ -63,22 +63,7 @@
                 android:hint="Password...">
 
             </com.rengwuxian.materialedittext.MaterialEditText>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textColor="#E41F10"
-                android:text="@string/secret">
 
-            </TextView>
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="গোপন নাম্বার দিন"
-                android:id="@+id/regSecCode_ID"
-                android:layout_marginTop="20dp">
-
-            </com.rengwuxian.materialedittext.MaterialEditText>
 
             <Button
                 android:id="@+id/regSubmit_ID"

@@ -16,7 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 
 public class EditorManaulActivity extends AppCompatActivity {
-    EditText billerNameEdit,amountEdit,dateEdit,tranjectionEdit,statusEdit,personalNotice,personalTotal,personalDue;
+    EditText billerNameEdit,amountEdit,dateEdit,tranjectionEdit,statusEdit,personalTotal,personalDue;
     Button submitBtn,personalBtn;
 
     FirebaseUser firebaseUser;
@@ -31,7 +31,6 @@ public class EditorManaulActivity extends AppCompatActivity {
         dateEdit=findViewById(R.id.billManualDate_ID);
         tranjectionEdit=findViewById(R.id.billTManualTrans_ID);
         statusEdit=findViewById(R.id.billManualStatus_ID);
-        personalNotice=findViewById(R.id.personalNotice_ID);
         personalTotal=findViewById(R.id.personalAmount_ID);
         personalDue=findViewById(R.id.personalDue_ID);
 
@@ -80,10 +79,9 @@ public class EditorManaulActivity extends AppCompatActivity {
         personalBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String notice=personalNotice.getText().toString().trim();
                 String total=personalTotal.getText().toString();
                 String due=personalDue.getText().toString();
-                sentPersonalData(notice,total,due,id);
+                sentPersonalData(total,due,id);
             }
         });
     }
@@ -107,11 +105,10 @@ public class EditorManaulActivity extends AppCompatActivity {
         Toast.makeText(EditorManaulActivity.this, "আপনার বিল প্রেরন করা হয়েছে", Toast.LENGTH_SHORT).show();
     }
 
-    private void sentPersonalData(String notice, String total, String due, String id) {
+    private void sentPersonalData(String total, String due, String id) {
         DatabaseReference reference=FirebaseDatabase.getInstance().getReference("personal_data");
         String new_Id=reference.push().getKey();
         HashMap<String,Object> hashMap=new HashMap<>();
-        hashMap.put("notice",notice);
         hashMap.put("total",total);
         hashMap.put("due",due);
         hashMap.put("new_id",new_Id);

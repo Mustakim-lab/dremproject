@@ -6,21 +6,13 @@ public class Notice {
     public Notice() {
     }
 
-    public Notice(String notice, String total, String due, String new_id, String id) {
-        this.notice = notice;
+    public Notice(String total, String due, String new_id, String id) {
         this.total = total;
         this.due = due;
         this.new_id = new_id;
         this.id = id;
     }
 
-    public String getNotice() {
-        return notice;
-    }
-
-    public void setNotice(String notice) {
-        this.notice = notice;
-    }
 
     public String getTotal() {
         return total;

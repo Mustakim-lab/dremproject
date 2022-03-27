@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.example.ourproject.Adapter.NoticeAdapter;
 import com.example.ourproject.Adapter.SliderAdapter;
+import com.example.ourproject.Model.EditorNotice;
 import com.example.ourproject.Model.Notice;
 import com.example.ourproject.Model.ProfileModel;
 import com.google.android.material.navigation.NavigationView;
@@ -49,7 +50,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     RecyclerView recyclerView;
     NoticeAdapter noticeAdapter;
-    List<Notice> noticeList;
+    List<EditorNotice> editorNoticeList;
 
     FirebaseUser firebaseUser;
     DatabaseReference reference;
@@ -114,7 +115,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        noticeList=new ArrayList<>();
+        editorNoticeList=new ArrayList<>();
         redNotice();
 
         memberCard.setOnClickListener(new View.OnClickListener() {
@@ -147,17 +148,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void redNotice() {
-        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("personal_data");
+        DatabaseReference reference=FirebaseDatabase.getInstance().getReference("Notice");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot:dataSnapshot.getChildren()){
-                    Notice notice=snapshot.getValue(Notice.class);
-                    noticeList.add(notice);
+                    EditorNotice editorNotice=snapshot.getValue(EditorNotice.class);
+                    editorNoticeList.add(editorNotice);
 
-                    noticeAdapter=new NoticeAdapter(HomeActivity.this,noticeList);
-                    recyclerView.setAdapter(noticeAdapter);
                 }
+
+                noticeAdapter=new NoticeAdapter(HomeActivity.this,editorNoticeList);
+                recyclerView.setAdapter(noticeAdapter);
+
             }
 
             @Override
@@ -193,6 +196,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         }else if (item.getItemId()==R.id.dueAndAmount_ID){
             Intent intent=new Intent(HomeActivity.this,PersonalActivity.class);
+            startActivity(intent);
+        }else if (item.getItemId()==R.id.notice_ID){
+            Intent intent=new Intent(HomeActivity.this,EditorLoginActivity.class);
+            intent.putExtra("notice_ID",1);
             startActivity(intent);
         }
         drawerLayout.closeDrawer(GravityCompat.START);

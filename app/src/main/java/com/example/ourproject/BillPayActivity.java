@@ -59,20 +59,15 @@ public class BillPayActivity extends AppCompatActivity {
                     dateEdit.setError("তারিখ লিখুন");
                     dateEdit.requestFocus();
                     return;
-                }else if (transaction.isEmpty()){
-                    tranjectionEdit.setError("ট্রানজেকশন নাম্বার দিন");
-                    tranjectionEdit.requestFocus();
-                    return;
-                }else {
-
+                }else{
                     sentData(name,amount,date,transaction,status,myId);
-                /*
-                billerNameEdit.setText("");
-                amountEdit.setText("");
-                dateEdit.setText("");
-                tranjectionEdit.setText("");
 
-                 */
+                  billerNameEdit.setText("");
+                  amountEdit.setText("");
+                  dateEdit.setText("");
+                  tranjectionEdit.setText("");
+
+
                 }
 
 

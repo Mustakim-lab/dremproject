@@ -12,6 +12,7 @@ import android.widget.Toast;
 public class EditorLoginActivity extends AppCompatActivity {
     EditText editText;
     Button button;
+    Intent intent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,20 +21,29 @@ public class EditorLoginActivity extends AppCompatActivity {
         editText=findViewById(R.id.editorPass_ID);
         button=findViewById(R.id.editorSubmit_ID);
 
+        intent=getIntent();
+        int notice_ID=intent.getIntExtra("notice_ID",0);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String password=editText.getText().toString();
 
-                sentData(password);
+                sentData(password,notice_ID);
             }
         });
     }
 
-    private void sentData(String password) {
-        if (password.equals("123")){
-            Intent intent=new Intent(EditorLoginActivity.this,EditorHomeActivity.class);
-            startActivity(intent);
+    private void sentData(String password,int notice_ID) {
+        if (password.equals("drem@project")){
+            if (notice_ID==1){
+                Intent intent=new Intent(EditorLoginActivity.this,EditorNoticeActivity.class);
+                startActivity(intent);
+            }else {
+                Intent intent=new Intent(EditorLoginActivity.this,EditorHomeActivity.class);
+                startActivity(intent);
+            }
+
         }else {
             Toast.makeText(EditorLoginActivity.this, "Error password", Toast.LENGTH_SHORT).show();
         }

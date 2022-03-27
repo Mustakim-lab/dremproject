@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OurProject">
         <activity
+            android:name=".EditorNoticeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditorPersonalActivity"
+            android:exported="false" />
+        <activity
             android:name=".PersonalActivity"
             android:exported="false" />
         <activity

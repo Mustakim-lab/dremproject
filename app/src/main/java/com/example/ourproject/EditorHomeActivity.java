@@ -12,6 +12,7 @@ import android.os.Bundle;
 
 import com.example.ourproject.Fragment.EditorExtraFragment;
 import com.example.ourproject.Fragment.EditorMemberFragment;
+import com.example.ourproject.Fragment.PersonalFragment;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class EditorHomeActivity extends AppCompatActivity {
         ViewPagerAdapter viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(new EditorMemberFragment(),"সদস্য");
         viewPagerAdapter.addFragment(new EditorExtraFragment(),"তথ্য দিন");
+        viewPagerAdapter.addFragment(new PersonalFragment(),"ব্যক্তিগত");
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }

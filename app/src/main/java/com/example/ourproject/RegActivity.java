@@ -40,7 +40,6 @@ public class RegActivity extends AppCompatActivity {
         userNameEdit=findViewById(R.id.regUsername_ID);
         emailEdit=findViewById(R.id.regEmail_ID);
         passwordEdit=findViewById(R.id.regPassword_ID);
-        secretCodeEdit=findViewById(R.id.regSecCode_ID);
         button=findViewById(R.id.regSubmit_ID);
         textView=findViewById(R.id.goSignIn_ID);
         progressBar=findViewById(R.id.regProgressbar_ID);

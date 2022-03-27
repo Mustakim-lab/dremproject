@@ -35,7 +35,7 @@ public class EditorLoginActivity extends AppCompatActivity {
     }
 
     private void sentData(String password,int notice_ID) {
-        if (password.equals("drem@project")){
+        if (password.equals("dream123")){
             if (notice_ID==1){
                 Intent intent=new Intent(EditorLoginActivity.this,EditorNoticeActivity.class);
                 startActivity(intent);

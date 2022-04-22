@@ -1,18 +1,23 @@
 package com.example.ourproject;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     MaterialEditText emailEdit,passwordEdit;
     Button button;
-    TextView textView;
+    TextView textView,forgotPass;
     ProgressBar progressBar;
 
     FirebaseAuth mAuth;
@@ -46,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         emailEdit=findViewById(R.id.signEmail_ID);
         passwordEdit=findViewById(R.id.signPassword_ID);
         button=findViewById(R.id.signSubmit_ID);
+        forgotPass=findViewById(R.id.forgotPass_ID);
         progressBar=findViewById(R.id.signProgressbar_ID);
 
         textView=findViewById(R.id.goSignUP_ID);
@@ -87,6 +93,56 @@ public class MainActivity extends AppCompatActivity {
                     // emailEdit.setText("");
                     //passwordEdit.setText("");
                 }
+            }
+        });
+
+
+        forgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText editText=new EditText(v.getContext());
+                AlertDialog.Builder builder=new AlertDialog.Builder(v.getContext());
+                builder.setTitle("Reset Password");
+                builder.setMessage("আপনার মেইল দিন।মেইল এর মাধ্যমে পাসওয়ার্ড রিসেট করার জন্য লিঙ্ক দেওয়া হবে।");
+                builder.setView(editText);
+
+                builder.setPositiveButton("হ্যা", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String email=editText.getText().toString();
+                        if (email.isEmpty()){
+                            editText.setError("Enter gmail");
+                            editText.requestFocus();
+                            return;
+                        }else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                            editText.setError("Enter a valid gmail");
+                            editText.requestFocus();
+                            return;
+                        }else {
+                            mAuth.sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(MainActivity.this,"আপনার মেইল চেক করুন।",Toast.LENGTH_LONG).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(MainActivity.this,"সঠিক মেইল দিন।",Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    }
+                });
+
+                builder.setNegativeButton("না", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+
+                builder.create().show();
+
             }
         });
     }

@@ -8,7 +8,7 @@
         android:layout_width="37dp"
         android:layout_height="37dp"
         android:src="@mipmap/ic_launcher"
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/chat_image_ID">
 
     </de.hdodenhof.circleimageview.CircleImageView>

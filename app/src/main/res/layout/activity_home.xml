@@ -23,6 +23,14 @@
             android:id="@+id/toolBar_ID"
             android:background="@color/purple_200">
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="64dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="70dp"
+                android:id="@+id/profileImage_ID">
+
+            </de.hdodenhof.circleimageview.CircleImageView>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -199,7 +207,7 @@
         android:id="@+id/navigation_ID"
         app:menu="@menu/menu"
         android:layout_gravity="start"
-        app:headerLayout="@layout/user_item">
+        app:headerLayout="@layout/menu_item">
 
     </com.google.android.material.navigation.NavigationView>
 

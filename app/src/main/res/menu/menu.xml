@@ -5,12 +5,21 @@
 
     <group android:checkableBehavior="single">
 
+
+        <item android:id="@+id/editProfile_ID"
+            android:icon="@drawable/ic_baseline_account_box_24"
+            android:title="Profile">
+
+        </item>
+
         <item
             android:id="@+id/profile_ID"
-            android:title="Profile"
-            android:icon="@drawable/ic_baseline_account_box_24"
+            android:title="Account"
+            android:icon="@drawable/ic_baseline_add_to_photos_24"
             >
         </item>
+
+
 
         <item android:title="Due and Amount"
             android:icon="@drawable/ic_baseline_iso_24"

@@ -12,6 +12,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.ourproject.Fragment.ChatFragment;
 import com.example.ourproject.Fragment.MemberFragment;
 import com.example.ourproject.Model.ProfileModel;
@@ -27,9 +28,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MemberActivity extends AppCompatActivity {
     Toolbar toolbar;
     TextView profileName;
+    CircleImageView profileImage;
 
     FirebaseAuth mAuth;
     FirebaseUser firebaseUser;
@@ -48,6 +52,7 @@ public class MemberActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         profileName=findViewById(R.id.mesProfileName_ID);
+        profileImage=findViewById(R.id.profileImage_ID);
 
 
         mAuth=FirebaseAuth.getInstance();
@@ -58,6 +63,12 @@ public class MemberActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ProfileModel profileModel=dataSnapshot.getValue(ProfileModel.class);
                 profileName.setText(profileModel.getUsername());
+
+                if (profileModel.getImageUrl().equals("default")){
+                    profileImage.setImageResource(R.drawable.ic_baseline_perm_identity_24);
+                }else {
+                    Glide.with(MemberActivity.this).load(profileModel.getImageUrl()).into(profileImage);
+                }
             }
 
             @Override

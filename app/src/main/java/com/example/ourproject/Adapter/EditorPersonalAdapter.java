@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.ourproject.EditorPageActivity;
 import com.example.ourproject.EditorPersonalActivity;
 import com.example.ourproject.Model.ProfileModel;
@@ -41,6 +42,12 @@ public class EditorPersonalAdapter  extends RecyclerView.Adapter<EditorPersonalA
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         ProfileModel profileModel=profileModelList.get(position);
         holder.profileName.setText(profileModel.getUsername());
+
+        if (profileModel.getImageUrl().equals("default")){
+            holder.circleImageView.setImageResource(R.drawable.ic_baseline_perm_identity_24);
+        }else {
+            Glide.with(context).load(profileModel.getImageUrl()).into(holder.circleImageView);
+        }
 
         editorUserID=profileModel.getId();
     }

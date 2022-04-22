@@ -10,7 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.ourproject.Model.Chats;
+import com.example.ourproject.Model.ProfileModel;
 import com.example.ourproject.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,7 +51,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MyHolder
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
         Chats chats=chatsList.get(position);
+        
         holder.textView.setText(chats.getMessage());
+
+
+        if (imageUrl.equals("default")){
+            holder.circleImageView.setImageResource(R.drawable.ic_baseline_perm_identity_24);
+        }else {
+            Glide.with(context).load(imageUrl).into(holder.circleImageView);
+        }
+
+
     }
 
     @Override

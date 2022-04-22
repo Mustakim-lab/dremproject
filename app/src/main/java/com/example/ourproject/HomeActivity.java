@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.ourproject.Adapter.NoticeAdapter;
 import com.example.ourproject.Adapter.SliderAdapter;
 import com.example.ourproject.Model.EditorNotice;
@@ -38,6 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     SliderView sliderView;
     int[] images={R.drawable.img1,R.drawable.img2,R.drawable.img3,R.drawable.img4,R.drawable.img5};
@@ -57,6 +60,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     FirebaseAuth mAuth;
 
     TextView profileName,noticeText;
+    CircleImageView profileImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +73,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        profileName=findViewById(R.id.profile_ID);
+        profileImage=findViewById(R.id.profileImage_ID);
+
 
         mAuth=FirebaseAuth.getInstance();
         firebaseUser=FirebaseAuth.getInstance().getCurrentUser();
@@ -78,6 +85,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ProfileModel profileModel=dataSnapshot.getValue(ProfileModel.class);
                 profileName.setText(profileModel.getUsername());
+
+                if (profileModel.getImageUrl().equals("default")){
+                    profileImage.setImageResource(R.drawable.ic_baseline_perm_identity_24);
+                }else {
+                    Glide.with(getApplicationContext()).load(profileModel.getImageUrl()).into(profileImage);
+                }
             }
 
             @Override
@@ -200,6 +213,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }else if (item.getItemId()==R.id.notice_ID){
             Intent intent=new Intent(HomeActivity.this,EditorLoginActivity.class);
             intent.putExtra("notice_ID",1);
+            startActivity(intent);
+        }else if (item.getItemId()==R.id.editProfile_ID){
+            Intent intent=new Intent(HomeActivity.this,MainProfileActivity.class);
             startActivity(intent);
         }
         drawerLayout.closeDrawer(GravityCompat.START);

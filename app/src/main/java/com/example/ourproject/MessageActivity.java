@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.ourproject.Adapter.MessageAdapter;
 import com.example.ourproject.Adapter.UserAdapter;
 import com.example.ourproject.Model.Chats;
@@ -30,8 +31,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MessageActivity extends AppCompatActivity {
     TextView userPrfileName;
+    CircleImageView profileImage;
+
     FirebaseUser firebaseUser;
     DatabaseReference reference;
     Intent intent;
@@ -63,6 +68,8 @@ public class MessageActivity extends AppCompatActivity {
         String myID=firebaseUser.getUid();
 
         userPrfileName=findViewById(R.id.messsageProfileName_ID);
+        profileImage=findViewById(R.id.profileImage_ID);
+
         intent=getIntent();
         String userID=intent.getStringExtra("userID");
         firebaseUser= FirebaseAuth.getInstance().getCurrentUser();
@@ -73,6 +80,11 @@ public class MessageActivity extends AppCompatActivity {
                 ProfileModel profileModel=dataSnapshot.getValue(ProfileModel.class);
                 userPrfileName.setText(profileModel.getUsername());
 
+                if (profileModel.getImageUrl().equals("default")){
+                    profileImage.setImageResource(R.drawable.ic_baseline_perm_identity_24);
+                }else {
+                    Glide.with(MessageActivity.this).load(profileModel.getImageUrl()).into(profileImage);
+                }
 
                 redMessage(myID,userID,profileModel.getImageUrl());
             }

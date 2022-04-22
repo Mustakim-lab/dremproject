@@ -30,6 +30,8 @@ public class EditorLoginActivity extends AppCompatActivity {
                 String password=editText.getText().toString();
 
                 sentData(password,notice_ID);
+
+                editText.setText("");
             }
         });
     }
